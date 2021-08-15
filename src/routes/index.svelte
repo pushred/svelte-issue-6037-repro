@@ -2,6 +2,7 @@
   import { tick } from "svelte";
 
   let isModalOpen = false;
+  let hasWrapper = true;
 
   const embedHtml = `
     <blockquote class="twitter-tweet">
@@ -40,7 +41,21 @@
   <script async src="https://platform.twitter.com/widgets.js"></script>
 </svelte:head>
 
-{#if isModalOpen}
+<label>
+  <input type="checkbox" bind:checked={hasWrapper} />
+  Wrap
+  <code>@html</code>
+  in a div
+</label>
+
+<hr />
+
+{#if isModalOpen && hasWrapper}
+  <div>
+    {@html embedHtml}
+  </div>
+  <button on:click={handleModalClose}>Close</button>
+{:else if isModalOpen}
   {@html embedHtml}
   <button on:click={handleModalClose}>Close</button>
 {:else}
